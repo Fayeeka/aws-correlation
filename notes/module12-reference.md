@@ -5,7 +5,13 @@
 Given the depth of hands-on validation already completed in 12.1-12.5
 (real mock Splunk/ADX servers, a genuine security methodology flaw
 found and fixed, end-to-end verification), sections 12.6-12.8 are
-captured conceptually rather than separately built:
+captured conceptually rather than separately built.
+
+That 12.1-12.5 work is recorded in `notes/module12-reference.md` in the
+`mcp-hayabusa` repo (`~/mcp-hayabusa/notes/module12-reference.md`) —
+sections 12.1 through 12.5 for the build itself, and "Session Notes: A
+Real Security Design Flaw Found and Fixed" for the finding. This repo
+holds the artifacts that work produced; that file holds the narrative.
 
 **12.6 (Batch Report Flow):** the same persona, same mock
 infrastructure, with a broader query (all hosts, all users, save to

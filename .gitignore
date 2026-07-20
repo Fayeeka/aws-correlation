@@ -12,3 +12,10 @@ venv/
 # Generated correlation reports
 reports/*
 !reports/.gitkeep
+
+# One tracked exception. This single report is a demonstration artifact, not
+# routine investigation output: it is the recorded result of the 12.6 batch
+# flow actually being run against the mock servers, and the README's claims
+# about the userAgent finding are checkable against it. Routine reports stay
+# ignored -- do not add more exceptions here.
+!reports/cross-siem-correlation-2026-07-20-all-hosts-24h.md
