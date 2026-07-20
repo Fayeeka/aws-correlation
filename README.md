@@ -28,6 +28,48 @@ Both print a time anchor at startup and **the two must match** — see
 [mock-server/README.md](mock-server/README.md) for the anchoring rules, seeded
 scenario, query-filtering support, and curl patterns.
 
+Then launch Claude Code with the persona appended:
+
+```bash
+claude --append-system-prompt-file persona/cross-siem.md
+```
+
+`--append-system-prompt-file` is undocumented — it does not appear in
+`claude --help`, which lists only `--append-system-prompt <prompt>`. It works
+regardless. If it is ever removed, `--append-system-prompt "$(cat
+persona/cross-siem.md)"` is the equivalent.
+
+### The PowerShell profile gotcha
+
+Wrapping the above in a shell function is convenient:
+
+```powershell
+function claude-xsiem { claude --append-system-prompt-file "$HOME\.claude\personas\cross-siem.md" @args }
+```
+
+**Windows PowerShell 5.1 and PowerShell 7 read different profiles.** 5.1 loads
+`Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1`; pwsh 7 loads
+`Documents\PowerShell\Microsoft.PowerShell_profile.ps1`. A function defined in
+one is simply undefined in the other, with no error to explain why — the name
+just fails to resolve. Check with `$PROFILE` in the shell you actually use.
+
+To keep one source of truth, have the pwsh 7 profile dot-source the 5.1 one:
+
+```powershell
+$winPSProfile = Join-Path (Split-Path $PROFILE.CurrentUserCurrentHost -Parent |
+    Split-Path -Parent) 'WindowsPowerShell\Microsoft.PowerShell_profile.ps1'
+if (Test-Path $winPSProfile) { . $winPSProfile }
+```
+
+Verify in a **fresh** session — `pwsh -Command "Get-Command claude-xsiem"` —
+not by dot-sourcing the profile into your current one. Dot-sourcing proves the
+file parses; it does not prove your shell loads it, and those are the two
+different failures.
+
+If the profiles live under OneDrive, note that the `Test-Path` guard fails
+silently when Files On-Demand dehydrates the file: the personas just go
+missing, which looks identical to never having defined them.
+
 ## The finding this repo is built around
 
 While testing the persona against these fixtures, one query pattern turned out
