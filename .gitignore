@@ -1,0 +1,14 @@
+# Logs
+*.log
+logs/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Generated correlation reports
+reports/*
+!reports/.gitkeep
